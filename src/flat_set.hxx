@@ -3,7 +3,7 @@
 
 # include "flat_set.hh"
 
-namespace std 
+namespace std
 {
 
     // CONSTRUCTORS
@@ -86,7 +86,14 @@ namespace std
     {
 
     }
-/*
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline flat_set<Key, Compare, Allocator>::~flat_set()
+    {
+    }
+
     // ITERATORS
     template<typename Key,
          typename Compare,
@@ -195,7 +202,7 @@ namespace std
     {
         return elts_.crend();
     }
-*/
+
  template<typename Key,
          typename Compare,
          typename Allocator>
