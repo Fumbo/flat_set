@@ -3,46 +3,59 @@
 
 # include <vector>
 # include <utility>
+# include <functional>
+# include <memory>
+# include <initializer_list>
 
-class Flat_set {
+namespace std
+{
+template<typename Key,
+         typename Compare = std::less<Key>,
+         typename Allocator = std::allocator<Key>>
+class flat_set
+{
 
   public:
-    /* CONSTRUCTORS */
-    explicit flat_set(const Compare& comp = Compare(),
-              const Allocator& alloc = Allocator());
-    explicit flat_set( const Allocator& alloc );
-    flat_set(const flat_set& other, const Allocator& alloc);
-    flat_set(flat_set&& other);
-    flat_set(const flat_set& other);
-    flat_set(flat_set&& other, const Allocator& alloc);
-    flat_set(std::initializer_list<value_type> init,
-      const Compare& comp = Compare(),
-                  const Allocator& alloc = Allocator());
+    /* Types */
+    typedef Key                   key_type;
+    typedef Key                   value_type;
+    typedef Compare               key_compare;
+    typedef Compare               value_compare;
+    typedef Allocator             allocator_type;
+    typedef value_type&           reference;
+    typedef const value_type&     const_reference;
 
-    template<class InputIt>
-    flat_set(InputIt first, InputIt last, const Compare& comp = Compare(),
-        const Allocator& alloc = Allocator());
+    typedef typename std::vector<Key>::iterator               iterator;
+    typedef typename std::vector<Key>::const_iterator         const_iterator;
+    typedef typename std::vector<Key>::reverse_iterator       reverse_iterator;
+    typedef typename std::vector<Key>::const_reverse_iterator const_reverse_iterator;
+
+    typedef std::size_t                                     size_type;
+    typedef std::ptrdiff_t                                  difference_type;
+    typedef typename std::allocator_traits<Allocator>::pointer       pointer;
+    typedef typename std::allocator_traits<Allocator>::const_pointer const_pointer;
+
+    /* CONSTRUCTORS */
+    explicit flat_set( const Allocator& alloc );
+    template< class InputIt >
+    flat_set( InputIt first, InputIt last,
+         const Compare& comp = Compare(),
+         const Allocator& alloc = Allocator() );
+    flat_set( const flat_set& other );
+    flat_set( const flat_set& other, const Allocator& alloc );
+    flat_set( flat_set&& other );
+    flat_set( flat_set&& other, const Allocator& alloc );
+    flat_set( std::initializer_list<value_type> init,
+         const Compare& comp = Compare(),
+         const Allocator& alloc = Allocator() );
 
     /* DESTRUCTOR */
     ~flat_set();
 
-    /* OPERATORS & ALLOCATOR*/
-    set& operator=(const set& other);
-    set& operator=(set&& other);
-    template<>
-    bool operator==(set<>& lhs, set<>& rhs);
-    template<>
-    bool operator!=(set<>& lhs, set<>& rhs);
-    template<>
-    bool operator<(set<>& lhs, set<>& rhs);
-    template<>
-    bool operator<=(set<>& lhs, set<>& rhs);
-    template<>
-    bool operator>(set<>& lhs, set<>& rhs);
-    template<>
-    bool operator>=(set<>& lhs, set<>& rhs);
-
-    allocator_type get_allocator() const;
+    /* OPERATOR EQUALS */
+    flat_set& operator=( const flat_set& other );
+    flat_set& operator=( flat_set&& other );
+    flat_set& operator=( std::initializer_list<value_type> ilist );
 
     /* ITERATORS */
     iterator begin();
@@ -61,12 +74,12 @@ class Flat_set {
     const_reverse_iterator rend() const;
     const_reverse_iterator crend() const;
 
-    /* COMPLEXITY */
+    /* CAPACITY */
     bool empty() const;
     size_type size() const;
     size_type max_size() const;
 
-    /* MODIFICATORS */
+    /* MODIFIERS */
     void clear();
 
     std::pair<iterator,bool> insert(const value_type& value);
@@ -89,7 +102,7 @@ class Flat_set {
     iterator erase(const_iterator first, const_iterator last);
     size_type erase(const key_type& key);
 
-    void swap( set& other );
+    void swap( flat_set& other );
 
     /* LOOKUP */
     size_type count(const Key& key) const;
@@ -115,4 +128,28 @@ class Flat_set {
 
 };
 
-#endif /* FLAT_SET_HH */
+template< class Key, class Compare, class Alloc >
+bool operator==( const flat_set<Key,Compare,Alloc>& lhs,
+                 const flat_set<Key,Compare,Alloc>& rhs );
+template< class Key, class Compare, class Alloc >
+bool operator!=( const flat_set<Key,Compare,Alloc>& lhs,
+                 const flat_set<Key,Compare,Alloc>& rhs );
+template< class Key, class Compare, class Alloc >
+bool operator<( const flat_set<Key,Compare,Alloc>& lhs,
+                const flat_set<Key,Compare,Alloc>& rhs );
+template< class Key, class Compare, class Alloc >
+bool operator<=( const flat_set<Key,Compare,Alloc>& lhs,
+                 const flat_set<Key,Compare,Alloc>& rhs );
+template< class Key, class Compare, class Alloc >
+bool operator>( const flat_set<Key,Compare,Alloc>& lhs,
+                const flat_set<Key,Compare,Alloc>& rhs );
+template< class Key, class Compare, class Alloc >
+bool operator>=( const flat_set<Key,Compare,Alloc>& lhs,
+                 const flat_set<Key,Compare,Alloc>& rhs );
+
+template< class Key, class Compare, class Alloc >
+void swap( flat_set<Key,Compare,Alloc>& lhs,
+           flat_set<Key,Compare,Alloc>& rhs );
+
+}
+#endif /* FLAT_flat_set_HH */
