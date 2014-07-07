@@ -3,7 +3,7 @@ CXXFLAGS?=-Wall -Wextra -Werror -pedantic -std=c++11
 CPPFLAGS=-MMD -I src/includes/
 LDFLAGES=
 BIN?=flat_set
-SRC=src/main.cc\
+SRC=src/main.cc
 LIB=flat_set.so
 OBJ=${SRC:.cc=.o}
 OBJFPIC=$(SRC:.cc=.o.fpic)

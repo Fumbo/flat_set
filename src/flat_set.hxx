@@ -5,6 +5,55 @@
 
 namespace std {
 
+
+    // CONSTRUCTORS
+    explicit flat_set(const Compare& comp = Compare(),
+                      const Allocator& alloc = Allocator())
+    {
+
+    }
+
+    explicit flat_set( const Allocator& alloc )
+    {
+
+    }
+
+    template<class InputIt>
+    flat_set(InputIt first, InputIt last,
+         const Compare& comp = Compare(),
+         const Allocator& alloc = Allocator())
+    {
+
+    }
+
+    flat_set(const flat_set& other )
+    {
+
+    }
+
+    flat_set(const flat_set& other, const Allocator& alloc)
+    {
+
+    }
+
+    flat_set(flat_set&& other)
+    {
+
+    }
+
+    flat_set(flat_set&& other, const Allocator& alloc)
+    {
+
+    }
+
+    flat_set(initializer_list<value_type> init,
+         const Compare& comp = Compare(),
+         const Allocator& alloc = Allocator())
+    {
+
+    }
+
+    // ITERATORS
     inline iterator flat_set::begin()
     {
 

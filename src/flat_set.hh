@@ -36,7 +36,8 @@ class flat_set
     typedef typename allocator_traits<Allocator>::const_pointer const_pointer;
 
     /* CONSTRUCTORS */
-    flat_set();
+    explicit flat_set(const Compare& comp = Compare(),
+                      const Allocator& alloc = Allocator());
     explicit flat_set( const Allocator& alloc );
     template<class InputIt>
     flat_set(InputIt first, InputIt last,
