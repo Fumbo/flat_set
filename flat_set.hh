@@ -3,67 +3,59 @@
 
 # include <vector>
 # include <utility>
+# include <functional>
+# include <memory>
+# include <initializer_list>
 
-namespace flatset
+namespace std
 {
-class Flat_set {
+template<typename Key,
+         typename Compare = std::less<Key>,
+         typename Allocator = std::allocator<Key>>
+class flat_set
+{
 
   public:
     /* Types */
-    typedef _Key                  key_type;
-    typedef _Key                  value_type;
-    typedef _Compare                  key_compare;
-    typedef _Compare                  value_compare;
-    typedef _Allocator                allocator_type;
-    typedef typename _Base::reference             reference;
-    typedef typename _Base::const_reference       const_reference;
+    typedef Key                   key_type;
+    typedef Key                   value_type;
+    typedef Compare               key_compare;
+    typedef Compare               value_compare;
+    typedef Allocator             allocator_type;
+    typedef value_type&           reference;
+    typedef const value_type&     const_reference;
 
-    typedef typename _Base::iterator               iterator;
-    typedef typename _Base::const_iterator         const_iterator;
-    typedef typename _Base::reverse_iterator       reverse_iterator;
-    typedef typename _Base::const_reverse_iterator const_reverse_iterator;
+    typedef typename std::vector<Key>::iterator               iterator;
+    typedef typename std::vector<Key>::const_iterator         const_iterator;
+    typedef typename std::vector<Key>::reverse_iterator       reverse_iterator;
+    typedef typename std::vector<Key>::const_reverse_iterator const_reverse_iterator;
 
-    typedef typename _Base::size_type             size_type;
-    typedef typename _Base::difference_type       difference_type;
-    typedef typename _Base::pointer               pointer;
-    typedef typename _Base::const_pointer         const_pointer;
+    typedef std::size_t                                     size_type;
+    typedef std::ptrdiff_t                                  difference_type;
+    typedef typename std::allocator_traits<Allocator>::pointer       pointer;
+    typedef typename std::allocator_traits<Allocator>::const_pointer const_pointer;
 
     /* CONSTRUCTORS */
-    explicit flat_set(const Compare& comp = Compare(),
-              const Allocator& alloc = Allocator());
     explicit flat_set( const Allocator& alloc );
-    flat_set(const flat_set& other, const Allocator& alloc);
-    flat_set(flat_set&& other);
-    flat_set(const flat_set& other);
-    flat_set(flat_set&& other, const Allocator& alloc);
-    flat_set(std::initializer_list<value_type> init,
-      const Compare& comp = Compare(),
-                  const Allocator& alloc = Allocator());
-
-    template<class InputIt>
-    flat_set(InputIt first, InputIt last, const Compare& comp = Compare(),
-        const Allocator& alloc = Allocator());
+    template< class InputIt >
+    flat_set( InputIt first, InputIt last,
+         const Compare& comp = Compare(),
+         const Allocator& alloc = Allocator() );
+    flat_set( const flat_set& other );
+    flat_set( const flat_set& other, const Allocator& alloc );
+    flat_set( flat_set&& other );
+    flat_set( flat_set&& other, const Allocator& alloc );
+    flat_set( std::initializer_list<value_type> init,
+         const Compare& comp = Compare(),
+         const Allocator& alloc = Allocator() );
 
     /* DESTRUCTOR */
     ~flat_set();
 
-    /* OPERATORS & ALLOCATOR*/
-    flat_set& operator=(const flat_set& other);
-    flat_set& operator=(flat_set&& other);
-    template<>
-    bool operator==(flat_set<>& lhs, flat_set<>& rhs);
-    template<>
-    bool operator!=(flat_set<>& lhs, flat_set<>& rhs);
-    template<>
-    bool operator<(flat_set<>& lhs, flat_set<>& rhs);
-    template<>
-    bool operator<=(flat_set<>& lhs, flat_set<>& rhs);
-    template<>
-    bool operator>(flat_set<>& lhs, flat_set<>& rhs);
-    template<>
-    bool operator>=(flat_set<>& lhs, flat_set<>& rhs);
-
-    allocator_type get_allocator() const;
+    /* OPERATOR EQUALS */
+    flat_set& operator=( const flat_set& other );
+    flat_set& operator=( flat_set&& other );
+    flat_set& operator=( std::initializer_list<value_type> ilist );
 
     /* ITERATORS */
     iterator begin();
@@ -82,12 +74,12 @@ class Flat_set {
     const_reverse_iterator rend() const;
     const_reverse_iterator crend() const;
 
-    /* COMPLEXITY */
+    /* CAPACITY */
     bool empty() const;
     size_type size() const;
     size_type max_size() const;
 
-    /* MODIFICATORS */
+    /* MODIFIERS */
     void clear();
 
     std::pair<iterator,bool> insert(const value_type& value);
@@ -129,8 +121,32 @@ class Flat_set {
 
     /* OBSERVATORS */
     key_compare key_comp() const;
-    std::flat_set::value_compare value_comp() const;
+    flat_set::value_compare value_comp() const;
 
 };
+
+template< class Key, class Compare, class Alloc >
+bool operator==( const flat_set<Key,Compare,Alloc>& lhs,
+                 const flat_set<Key,Compare,Alloc>& rhs );
+template< class Key, class Compare, class Alloc >
+bool operator!=( const flat_set<Key,Compare,Alloc>& lhs,
+                 const flat_set<Key,Compare,Alloc>& rhs );
+template< class Key, class Compare, class Alloc >
+bool operator<( const flat_set<Key,Compare,Alloc>& lhs,
+                const flat_set<Key,Compare,Alloc>& rhs );
+template< class Key, class Compare, class Alloc >
+bool operator<=( const flat_set<Key,Compare,Alloc>& lhs,
+                 const flat_set<Key,Compare,Alloc>& rhs );
+template< class Key, class Compare, class Alloc >
+bool operator>( const flat_set<Key,Compare,Alloc>& lhs,
+                const flat_set<Key,Compare,Alloc>& rhs );
+template< class Key, class Compare, class Alloc >
+bool operator>=( const flat_set<Key,Compare,Alloc>& lhs,
+                 const flat_set<Key,Compare,Alloc>& rhs );
+
+template< class Key, class Compare, class Alloc >
+void swap( flat_set<Key,Compare,Alloc>& lhs, 
+           flat_set<Key,Compare,Alloc>& rhs );
+
 }
-#endif /* FLAT_SET_HH */
+#endif /* FLAT_flat_set_HH */
