@@ -26,13 +26,13 @@ namespace std
          const A& alloc)
         : elts_(std::vector<K, A>(first, last)), compare_(comp)
     {
-
     }
 
     template<typename K, typename C, typename A>
     inline flat_set<K, C, A>::flat_set(const flat_set& other )
       : elts_(std::vector<K, A>(other.elts_, std::allocator_traits<allocator_type>::select_on_copy_construction(other))), compare_(other.compare_)
     {
+        // std::allocator_traits<allocator_type>::select_on_copy_construction(other)) error ?
     }
 
     template<typename K, typename C, typename A>
@@ -72,6 +72,7 @@ namespace std
     template<typename K, typename C, typename A>
     flat_set<K, C, A>& flat_set<K, C, A>::operator=(const flat_set& other)
     {
+        // TODO
         flat_set copy = flat_set(other);
         swap(*this, copy);
         return *this;
@@ -80,11 +81,13 @@ namespace std
     template<typename K, typename C, typename A>
     flat_set<K, C, A>& flat_set<K, C, A>::operator=(flat_set&& other)
     {
+        // TODO
     }
 
     template<typename K, typename C, typename A>
     flat_set<K, C, A>& flat_set<K, C, A>::operator=(initializer_list<value_type> ilist)
     {
+        // TODO
     }
 
     // ITERATORS
@@ -442,7 +445,6 @@ namespace std
 
 
     /* OBSERVATORS */
-
     template<typename K, typename C, typename A>
     inline auto flat_set<K, C, A>::key_comp() const -> key_compare
     {
@@ -456,4 +458,6 @@ namespace std
     }
 }
 
+// TODO == != < <= > >=
+// TODO swap
 #endif // !FLAT_SET_HXX
