@@ -30,8 +30,8 @@ class flat_set
     typedef typename vector<Key>::reverse_iterator       reverse_iterator;
     typedef typename vector<Key>::const_reverse_iterator const_reverse_iterator;
 
-    typedef size_t                                     size_type;
-    typedef ptrdiff_t                                  difference_type;
+    typedef size_t                                              size_type;
+    typedef ptrdiff_t                                           difference_type;
     typedef typename allocator_traits<Allocator>::pointer       pointer;
     typedef typename allocator_traits<Allocator>::const_pointer const_pointer;
 
