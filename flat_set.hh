@@ -1,11 +1,32 @@
 #ifndef FLAT_SET_HH
 # define FLAT_SET_HH
 
-# include <std::vector>
+# include <vector>
+# include <utility>
 
+namespace flatset
+{
 class Flat_flat_set {
 
   public:
+    /* Types */
+    typedef _Key                  key_type;
+    typedef _Key                  value_type;
+    typedef _Compare                  key_compare;
+    typedef _Compare                  value_compare;
+    typedef _Allocator                allocator_type;
+    typedef typename _Base::reference             reference;
+    typedef typename _Base::const_reference       const_reference;
+
+    typedef typename _Base::iterator               iterator;
+    typedef typename _Base::const_iterator         const_iterator;
+    typedef typename _Base::reverse_iterator       reverse_iterator;
+    typedef typename _Base::const_reverse_iterator const_reverse_iterator;
+
+    typedef typename _Base::size_type             size_type;
+    typedef typename _Base::difference_type       difference_type;
+    typedef typename _Base::pointer               pointer;
+    typedef typename _Base::const_pointer         const_pointer;
     /* CONSTRUCTORS */
     explicit flat_set(const Compare& comp = Compare(),
               const Allocator& alloc = Allocator());
@@ -109,9 +130,6 @@ class Flat_flat_set {
     key_compare key_comp() const;
     std::set::value_compare value_comp() const;
 
-
-  private:
-  // ?
 };
-
+}
 #endif /* FLAT_SET_HH */
