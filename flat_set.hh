@@ -6,7 +6,7 @@
 
 namespace flatset
 {
-class Flat_flat_set {
+class Flat_set {
 
   public:
     /* Types */
@@ -27,6 +27,7 @@ class Flat_flat_set {
     typedef typename _Base::difference_type       difference_type;
     typedef typename _Base::pointer               pointer;
     typedef typename _Base::const_pointer         const_pointer;
+
     /* CONSTRUCTORS */
     explicit flat_set(const Compare& comp = Compare(),
               const Allocator& alloc = Allocator());
@@ -47,20 +48,20 @@ class Flat_flat_set {
     ~flat_set();
 
     /* OPERATORS & ALLOCATOR*/
-    set& operator=(const set& other);
-    set& operator=(set&& other);
+    flat_set& operator=(const flat_set& other);
+    flat_set& operator=(flat_set&& other);
     template<>
-    bool operator==(set<>& lhs, set<>& rhs);
+    bool operator==(flat_set<>& lhs, flat_set<>& rhs);
     template<>
-    bool operator!=(set<>& lhs, set<>& rhs);
+    bool operator!=(flat_set<>& lhs, flat_set<>& rhs);
     template<>
-    bool operator<(set<>& lhs, set<>& rhs);
+    bool operator<(flat_set<>& lhs, flat_set<>& rhs);
     template<>
-    bool operator<=(set<>& lhs, set<>& rhs);
+    bool operator<=(flat_set<>& lhs, flat_set<>& rhs);
     template<>
-    bool operator>(set<>& lhs, set<>& rhs);
+    bool operator>(flat_set<>& lhs, flat_set<>& rhs);
     template<>
-    bool operator>=(set<>& lhs, set<>& rhs);
+    bool operator>=(flat_set<>& lhs, flat_set<>& rhs);
 
     allocator_type get_allocator() const;
 
@@ -109,7 +110,7 @@ class Flat_flat_set {
     iterator erase(const_iterator first, const_iterator last);
     size_type erase(const key_type& key);
 
-    void swap( set& other );
+    void swap( flat_set& other );
 
     /* LOOKUP */
     size_type count(const Key& key) const;
@@ -128,7 +129,7 @@ class Flat_flat_set {
 
     /* OBSERVATORS */
     key_compare key_comp() const;
-    std::set::value_compare value_comp() const;
+    std::flat_set::value_compare value_comp() const;
 
 };
 }
