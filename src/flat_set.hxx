@@ -3,8 +3,8 @@
 
 # include "flat_set.hh"
 
-namespace std {
-
+namespace std 
+{
 
     // CONSTRUCTORS
 
@@ -13,7 +13,7 @@ namespace std {
          typename Allocator>
     inline flat_set<Key, Compare, Allocator>::flat_set(const Compare& comp,
                       const Allocator& alloc)
-      : elts_(std::vector<Key, Allocator>()), compare_(comp)
+      : elts_(std::vector<Key, Allocator>(alloc)), compare_(comp)
     {
 
     }
@@ -88,63 +88,112 @@ namespace std {
     }
 
     // ITERATORS
-    inline iterator flat_set::begin()
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::iterator
+    flat_set<Key, Compare, Allocator>::begin()
     {
-
+        return elts_.begin();
     }
 
-    inline const_iterator flat_set::begin() const
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::const_iterator
+    flat_set<Key, Compare, Allocator>::begin() const
     {
-
+        return elts_.begin();
     }
 
-    inline const_iterator flat_set::cbegin() const
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::const_iterator
+    flat_set<Key, Compare, Allocator>::cbegin() const
     {
+        return elts_.cbegin();
     }
 
-    inline iterator flat_set::end()
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::iterator
+    flat_set<Key, Compare, Allocator>::end()
     {
-
+        return elts_.end();
     }
 
-    inline const_iterator flat_set::end() const
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::const_iterator
+    flat_set<Key, Compare, Allocator>::end() const
     {
-
+        return elts_.end();
     }
 
-    inline const_iterator flat_set::cend() const
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::const_iterator
+    flat_set<Key, Compare, Allocator>::cend() const
     {
-
+        return elts_.cend();
     }
 
-    inline reverse_iterator flat_set::rbegin()
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::reverse_iterator
+    flat_set<Key, Compare, Allocator>::rbegin()
     {
-
+        return elts_.rbegin();
     }
 
-    inline const_reverse_iterator flat_set::rbegin() const
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::const_reverse_iterator
+    flat_set<Key, Compare, Allocator>::rbegin() const
     {
-
+        return elts_.rbegin();
     }
 
-    inline const_reverse_iterator flat_set::crbegin() const
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::const_reverse_iterator
+    flat_set<Key, Compare, Allocator>::crbegin() const
     {
-
+        return elts_.crbegin();
     }
 
-    inline reverse_iterator flat_set::rend()
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::reverse_iterator
+    flat_set<Key, Compare, Allocator>::rend()
     {
-
+        return elts_.rend();
     }
 
-    inline const_reverse_iterator flat_set::rend() const
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::const_reverse_iterator
+    flat_set<Key, Compare, Allocator>::rend() const
     {
-
+        return elts_.rend();
     }
 
-    inline const_reverse_iterator flat_set::crend() const
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::const_reverse_iterator
+    flat_set<Key, Compare, Allocator>::crend() const
     {
-
+        return elts_.crend();
     }
 
 }
