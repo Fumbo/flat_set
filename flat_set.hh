@@ -1,9 +1,10 @@
 #ifndef FLAT_SET_HH
 # define FLAT_SET_HH
 
-# include <std::vector>
+# include <vector>
+# include <utility>
 
-class Flat_flat_set {
+class Flat_set {
 
   public:
     /* CONSTRUCTORS */
@@ -109,9 +110,9 @@ class Flat_flat_set {
     key_compare key_comp() const;
     std::set::value_compare value_comp() const;
 
+    private:
+      std::vector<std::pair<Key, Value>> elts;
 
-  private:
-  // ?
 };
 
 #endif /* FLAT_SET_HH */
