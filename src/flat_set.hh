@@ -126,7 +126,8 @@ class flat_set
     value_compare value_comp() const;
 
     private:
-      vector<Key> elts;
+      vector<Key> elts_;
+      Compare compare_;
 
 };
 
@@ -154,4 +155,7 @@ void swap( flat_set<Key,Compare,Alloc>& lhs,
            flat_set<Key,Compare,Alloc>& rhs );
 
 }
+
+# include "flat_set.hxx"
+
 #endif /* FLAT_flat_set_HH */

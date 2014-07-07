@@ -1,54 +1,88 @@
 #ifndef FLAT_SET_HXX
 # define FLAT_SET_HXX
 
-# include <flat_set.hh>
+# include "flat_set.hh"
 
 namespace std {
 
 
     // CONSTRUCTORS
-    explicit flat_set(const Compare& comp = Compare(),
-                      const Allocator& alloc = Allocator())
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline flat_set<Key, Compare, Allocator>::flat_set(const Compare& comp,
+                      const Allocator& alloc)
+      : elts_(std::vector<Key, Allocator>()), compare_(comp)
     {
 
     }
 
-    explicit flat_set( const Allocator& alloc )
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline flat_set<Key, Compare, Allocator>::flat_set( const Allocator& alloc )
+      : elts_(std::vector<Key, Allocator>())
     {
 
     }
 
+    template<typename Key,
+             typename Compare,
+             typename Allocator>
     template<class InputIt>
-    flat_set(InputIt first, InputIt last,
-         const Compare& comp = Compare(),
-         const Allocator& alloc = Allocator())
+    inline flat_set<Key, Compare, Allocator>::flat_set(InputIt first, InputIt last,
+         const Compare& comp,
+         const Allocator& alloc)
+        : elts_(std::vector<Key, Allocator>(first, last)), compare_(comp)
     {
 
     }
 
-    flat_set(const flat_set& other )
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline flat_set<Key, Compare, Allocator>::flat_set(const flat_set& other )
+      : elts_(std::vector<Key, Allocator>(other.elts_, std::allocator_traits<allocator_type>::select_on_copy_construction(other))), compare_(other.compare_)
+    {
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline flat_set<Key, Compare, Allocator>::flat_set(const flat_set& other,
+        const Allocator& alloc)
+      : elts_(std::vector<Key, Allocator>(other.elts_, alloc)), compare_(other.compare_)
     {
 
     }
 
-    flat_set(const flat_set& other, const Allocator& alloc)
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline flat_set<Key, Compare, Allocator>::flat_set(flat_set&& other)
+      : elts_(std::vector<Key, Allocator>(other.elts_, std::allocator_traits<allocator_type>::select_on_copy_construction(other))), compare_(other.compare_)
     {
 
     }
 
-    flat_set(flat_set&& other)
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline flat_set<Key, Compare, Allocator>::flat_set(flat_set&& other,
+        const Allocator& alloc)
+      : elts_(std::vector<Key, Allocator>(other.elts_, alloc)), compare_(other.compare_)
     {
 
     }
 
-    flat_set(flat_set&& other, const Allocator& alloc)
-    {
-
-    }
-
-    flat_set(initializer_list<value_type> init,
-         const Compare& comp = Compare(),
-         const Allocator& alloc = Allocator())
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline flat_set<Key, Compare, Allocator>::flat_set(initializer_list<value_type> init,
+         const Compare& comp,
+         const Allocator& alloc)
+        : elts_(std::vector<Key, Allocator>(init)), compare_(comp)
     {
 
     }
