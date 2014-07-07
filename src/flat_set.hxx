@@ -302,8 +302,89 @@ namespace std
 
     }
 
+    /* LOOKUP */
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline size_t flat_set<Key, Compare, Allocator>::count(const Key& key) const
+    {
+        if (find(key) != elts_.end())
+            return 1;
+        else
+            return 0;
+    }
 
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::iterator
+    flat_set<Key, Compare, Allocator>::find(const Key& key)
+    {
+        auto it = lower_bound(elts_.begin(), elts_.end(), key, compare_);
+        if (*it == key)
+            return it;
+        else
+            return elts_.end();
+    }
 
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::const_iterator
+    flat_set<Key, Compare, Allocator>::find(const Key& key) const
+    {
+        auto it = lower_bound(elts_.cbegin(), elts_.cend(), key, compare_);
+        if (*it == key)
+            return it;
+        else
+            return elts_.end();
+    }
+
+    template<typename K, typename C, typename A>
+    inline auto
+    flat_set<K, C, A>::equal_range(const K& key) -> pair<iterator, iterator>
+    {
+        auto it = find(key);
+        if (it != elts_.begin())
+            return pair<iterator, iterator>(it, it);
+        else
+            return pair<iterator, iterator>(elts_.end(), elts_.begin());
+    }
+
+    template<typename K, typename C, typename A>
+    inline auto
+    flat_set<K, C, A>::equal_range(const K& key) const -> pair<const_iterator, const_iterator>
+    {
+        auto it = find(key);
+        if (it != elts_.begin())
+            return pair<const_iterator, const_iterator>(it, it);
+        else
+            return pair<const_iterator, const_iterator>(elts_.end(), elts_.begin());
+    }
+
+    template<typename K, typename C, typename A>
+    inline auto flat_set<K, C, A>::lower_bound(const K& key) -> iterator
+    {
+        return lower_bound(elts_.begin(), elts_.end(), key, compare_);
+    }
+
+    template<typename K, typename C, typename A>
+    inline auto flat_set<K, C, A>::lower_bound(const K& key) const -> const_iterator
+    {
+        return lower_bound(elts_.cbegin(), elts_.cend(), key, compare_);
+    }
+
+    template<typename K, typename C, typename A>
+    inline auto flat_set<K, C, A>::upper_bound(const K& key) -> iterator
+    {
+        return upper_bound(elts_.begin(), elts_.end(), key, compare_);
+    }
+
+    template<typename K, typename C, typename A>
+    inline auto flat_set<K, C, A>::upper_bound(const K& key) const -> const_iterator
+    {
+        return upper_bound(elts_.cbegin(), elts_.cend(), key, compare_);
+    }
 
 }
 

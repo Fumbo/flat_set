@@ -112,8 +112,8 @@ class flat_set
     iterator find(const Key& key);
     const_iterator find( const Key& key) const;
 
-    pair<iterator,iterator> equal_range(const Key& key);
-    pair<const_iterator,const_iterator> equal_range(const Key& key) const;
+    pair<iterator, iterator> equal_range(const Key& key);
+    pair<const_iterator, const_iterator> equal_range(const Key& key) const;
 
     iterator lower_bound(const Key& key);
     const_iterator lower_bound(const Key& key) const;
