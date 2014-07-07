@@ -10,8 +10,8 @@
 namespace std
 {
 template<typename Key,
-         typename Compare = std::less<Key>,
-         typename Allocator = std::allocator<Key>>
+         typename Compare = less<Key>,
+         typename Allocator = allocator<Key>>
 class flat_set
 {
 
@@ -25,29 +25,30 @@ class flat_set
     typedef value_type&           reference;
     typedef const value_type&     const_reference;
 
-    typedef typename std::vector<Key>::iterator               iterator;
-    typedef typename std::vector<Key>::const_iterator         const_iterator;
-    typedef typename std::vector<Key>::reverse_iterator       reverse_iterator;
-    typedef typename std::vector<Key>::const_reverse_iterator const_reverse_iterator;
+    typedef typename vector<Key>::iterator               iterator;
+    typedef typename vector<Key>::const_iterator         const_iterator;
+    typedef typename vector<Key>::reverse_iterator       reverse_iterator;
+    typedef typename vector<Key>::const_reverse_iterator const_reverse_iterator;
 
-    typedef std::size_t                                     size_type;
-    typedef std::ptrdiff_t                                  difference_type;
-    typedef typename std::allocator_traits<Allocator>::pointer       pointer;
-    typedef typename std::allocator_traits<Allocator>::const_pointer const_pointer;
+    typedef size_t                                     size_type;
+    typedef ptrdiff_t                                  difference_type;
+    typedef typename allocator_traits<Allocator>::pointer       pointer;
+    typedef typename allocator_traits<Allocator>::const_pointer const_pointer;
 
     /* CONSTRUCTORS */
+    flat_set();
     explicit flat_set( const Allocator& alloc );
-    template< class InputIt >
-    flat_set( InputIt first, InputIt last,
+    template<class InputIt>
+    flat_set(InputIt first, InputIt last,
          const Compare& comp = Compare(),
-         const Allocator& alloc = Allocator() );
-    flat_set( const flat_set& other );
-    flat_set( const flat_set& other, const Allocator& alloc );
-    flat_set( flat_set&& other );
-    flat_set( flat_set&& other, const Allocator& alloc );
-    flat_set( std::initializer_list<value_type> init,
+         const Allocator& alloc = Allocator());
+    flat_set(const flat_set& other );
+    flat_set(const flat_set& other, const Allocator& alloc);
+    flat_set(flat_set&& other);
+    flat_set(flat_set&& other, const Allocator& alloc);
+    flat_set(initializer_list<value_type> init,
          const Compare& comp = Compare(),
-         const Allocator& alloc = Allocator() );
+         const Allocator& alloc = Allocator());
 
     /* DESTRUCTOR */
     ~flat_set();
@@ -55,7 +56,7 @@ class flat_set
     /* OPERATOR EQUALS */
     flat_set& operator=( const flat_set& other );
     flat_set& operator=( flat_set&& other );
-    flat_set& operator=( std::initializer_list<value_type> ilist );
+    flat_set& operator=( initializer_list<value_type> ilist );
 
     /* ITERATORS */
     iterator begin();
@@ -82,17 +83,17 @@ class flat_set
     /* MODIFIERS */
     void clear();
 
-    std::pair<iterator,bool> insert(const value_type& value);
-    std::pair<iterator, bool> insert(value_type&& value);
+    pair<iterator,bool> insert(const value_type& value);
+    pair<iterator, bool> insert(value_type&& value);
     iterator insert(iterator hint, const value_type& value);
     iterator insert(const_iterator hint, const value_type& value);
     iterator insert(const_iterator hint, value_type&& value);
     template<class InputIt>
     void insert(InputIt first, InputIt last);
-    void insert(std::initializer_list<value_type> ilist);
+    void insert(initializer_list<value_type> ilist);
 
     template<class... Args>
-    std::pair<iterator, bool> emplace(Args&&... args);
+    pair<iterator, bool> emplace(Args&&... args);
     template <class... Args>
     iterator emplace_hint(const_iterator hint, Args&&... args);
 
@@ -110,8 +111,8 @@ class flat_set
     iterator find(const Key& key);
     const_iterator find( const Key& key) const;
 
-    std::pair<iterator,iterator> equal_range(const Key& key);
-    std::pair<const_iterator,const_iterator> equal_range(const Key& key) const;
+    pair<iterator,iterator> equal_range(const Key& key);
+    pair<const_iterator,const_iterator> equal_range(const Key& key) const;
 
     iterator lower_bound(const Key& key);
     const_iterator lower_bound(const Key& key) const;
@@ -121,10 +122,10 @@ class flat_set
 
     /* OBSERVATORS */
     key_compare key_comp() const;
-    std::set::value_compare value_comp() const;
+    value_compare value_comp() const;
 
     private:
-      std::vector<std::pair<Key, Value>> elts;
+      vector<Key> elts;
 
 };
 
