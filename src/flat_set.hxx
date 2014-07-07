@@ -241,7 +241,14 @@ namespace std
     inline pair<typename vector<Key>::iterator, bool>
         flat_set<Key, Compare, Allocator>::insert(const Key& value)
     {
-
+      typename std::vector<Key>::iterator low;
+      low = std::lower_bound(elts_.begin(), elts_.end(), value);
+      if (*low != value)
+      {
+        elts_.insert(low, value);
+        return std::pair<typename vector<Key>::iterator, bool>(low, true);
+      }
+      return std::pair<typename vector<Key>::iterator, bool>(low, false);
     }
 
     template<typename Key,
@@ -250,7 +257,14 @@ namespace std
     inline pair<typename vector<Key>::iterator, bool>
         flat_set<Key, Compare, Allocator>::insert(Key&& value)
     {
-
+      typename std::vector<Key>::iterator low;
+      low = std::lower_bound(elts_.begin(), elts_.end(), value, compare_);
+      if (*low != value)
+      {
+        elts_.insert(low, value);
+        return std::pair<typename vector<Key>::iterator, bool>(low, true);
+      }
+      return std::pair<typename vector<Key>::iterator, bool>(low, false);
     }
 
     template<typename Key,
@@ -260,7 +274,16 @@ namespace std
         flat_set<Key, Compare, Allocator>::insert(typename vector<Key>::iterator hint,
                                                   const Key& value)
     {
-
+      if (find(value) != elts_.end())
+        return elts_.end();
+      elts_.insert(hint, value);
+      if (is_sorted(elts_.begin(), elts_.end(), compare_))
+        return hint;
+      else
+      {
+        sort(elts_.begin(), elts_.end(), compare_);
+        return find(value);
+      }
     }
 
     template<typename Key,
@@ -270,7 +293,16 @@ namespace std
       flat_set<Key, Compare, Allocator>::insert(typename vector<Key>::const_iterator hint,
                                                 const Key& value)
     {
-
+      if (find(value) != elts_.end())
+        return elts_.end();
+      elts_.insert(hint, value);
+      if (is_sorted(elts_.begin(), elts_.end(), compare_))
+        return hint;
+      else
+      {
+        sort(elts_.begin(), elts_.end(), compare_);
+        return find(value);
+      }
     }
 
     template<typename Key,
@@ -280,7 +312,16 @@ namespace std
          flat_set<Key, Compare, Allocator>::insert(typename vector<Key>::const_iterator hint,
                                                    Key&& value)
     {
-
+      if (find(value) != elts_.end())
+        return elts_.end();
+      elts_.insert(hint, value);
+      if (is_sorted(elts_.begin(), elts_.end(), compare_))
+        return hint;
+      else
+      {
+        sort(elts_.begin(), elts_.end(), compare_);
+        return find(value);
+      }
     }
 
     template<typename Key,
@@ -290,7 +331,12 @@ namespace std
     inline void flat_set<Key, Compare, Allocator>::insert(InputIt first,
                                                           InputIt last)
     {
-
+      InputIt it = first;
+      while (it != last)
+      {
+        insert(*it);
+        it++;
+      }
     }
 
     template<typename Key,
@@ -299,7 +345,8 @@ namespace std
     inline void
       flat_set<Key, Compare, Allocator>::insert(initializer_list<value_type> ilist)
     {
-
+      for (auto it : ilist)
+        insert(*it);
     }
 
 
