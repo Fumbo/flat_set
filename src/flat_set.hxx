@@ -308,9 +308,9 @@ namespace std
     template<typename Key,
          typename Compare,
          typename Allocator>
-    inline typename vector<Key>::iterator
-         flat_set<Key, Compare, Allocator>::insert(typename vector<Key>::const_iterator hint,
-                                                   Key&& value)
+    inline auto
+        flat_set<Key, Compare, Allocator>::insert(typename vector<Key>::const_iterator hint,
+                                                   Key&& value) -> iterator
     {
       if (find(value) != elts_.end())
         return elts_.end();
@@ -349,7 +349,73 @@ namespace std
         insert(*it);
     }
 
+/*
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    template<class... Args>
+    pair<iterator, bool> flat_set<Key, Compare, Allocator>::emplace(Args&&... args)
+    {
 
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    template <class... Args>
+    iterator flat_set<Key, Compare, Allocator>::emplace_hint(const_iterator hint, Args&&... args)
+    {
+
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    void flat_set<Key, Compare, Allocator>::erase(iterator position)
+    {
+      elts_.erase(position);
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    iterator flat_set<Key, Compare, Allocator>::erase(const_iterator position)
+    {
+
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    void flat_set<Key, Compare, Allocator>::erase(iterator first, iterator last)
+    {
+
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    iterator flat_set<Key, Compare, Allocator>::erase(const_iterator first, const_iterator last)
+    {
+
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    size_type flat_set<Key, Compare, Allocator>::erase(const key_type& key)
+    {
+
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    void flat_set<Key, Compare, Allocator>::swap( flat_set& other )
+    {
+
+    }
+*/
 
 
 }
