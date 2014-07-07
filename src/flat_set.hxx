@@ -86,7 +86,7 @@ namespace std {
     {
 
     }
-
+/*
     // ITERATORS
     inline iterator flat_set::begin()
     {
@@ -146,6 +146,108 @@ namespace std {
     {
 
     }
+*/
+ template<typename Key,
+         typename Compare,
+         typename Allocator>
+   inline bool flat_set<Key, Compare, Allocator>::empty() const
+    {
+      return elts_.empty();
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline size_t flat_set<Key, Compare, Allocator>::size() const
+    {
+      return elts_.size();
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline size_t flat_set<Key, Compare, Allocator>::max_size() const
+    {
+      return elts_.max_size();
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline void flat_set<Key, Compare, Allocator>::clear()
+    {
+      elts_.clear();
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline pair<typename vector<Key>::iterator, bool>
+        flat_set<Key, Compare, Allocator>::insert(const Key& value)
+    {
+
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline pair<typename vector<Key>::iterator, bool>
+        flat_set<Key, Compare, Allocator>::insert(Key&& value)
+    {
+
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::iterator
+        flat_set<Key, Compare, Allocator>::insert(typename vector<Key>::iterator hint,
+                                                  const Key& value)
+    {
+
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::iterator
+      flat_set<Key, Compare, Allocator>::insert(typename vector<Key>::const_iterator hint,
+                                                const Key& value)
+    {
+
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline typename vector<Key>::iterator
+         flat_set<Key, Compare, Allocator>::insert(typename vector<Key>::const_iterator hint,
+                                                   Key&& value)
+    {
+
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    template<class InputIt>
+    inline void flat_set<Key, Compare, Allocator>::insert(InputIt first,
+                                                          InputIt last)
+    {
+
+    }
+
+    template<typename Key,
+         typename Compare,
+         typename Allocator>
+    inline void
+      flat_set<Key, Compare, Allocator>::insert(initializer_list<value_type> ilist)
+    {
+
+    }
+
+
+
 
 }
 

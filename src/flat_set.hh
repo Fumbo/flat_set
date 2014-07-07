@@ -84,7 +84,7 @@ class flat_set
     /* MODIFIERS */
     void clear();
 
-    pair<iterator,bool> insert(const value_type& value);
+    pair<iterator, bool> insert(const value_type& value);
     pair<iterator, bool> insert(value_type&& value);
     iterator insert(iterator hint, const value_type& value);
     iterator insert(const_iterator hint, const value_type& value);
