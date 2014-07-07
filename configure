@@ -1,0 +1,24 @@
+#!/bin/sh
+
+debug=0
+clang=0
+
+while [ "${1}" != "" ]; do
+    [ $1 == --with-clang ] && { clang=1; shift; continue; };
+    [ $1 == --with-debug ] && { debug=1; shift; continue; };
+    [ $1 == --help ] && { echo "usage : ./configure [options]
+        --help : Display this help
+        --with-debug : add debugs flags to the makefile
+        --with-clang : Change the compiler from g++ to clang"
+        shift; continue; };
+    shift;
+done
+
+if [ $clang == 1 ]; then
+    echo "CXX=clang++" > makefile.rules;
+    if [ $debug == 1 ]; then
+        echo "CXXFLAGS += -g3" >> makefile.rules;
+    fi
+elif [ $debug == 1 ]; then
+    echo "CXXFLAGS += -g3 -fvar-tracking" >> makefile.rules;
+fi
