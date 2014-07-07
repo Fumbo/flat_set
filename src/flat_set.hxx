@@ -294,26 +294,20 @@ namespace std
 
     }
 */
-    template<typename K,
-         typename C,
-         typename A>
+    template<typename K, typename C, typename A>
     void flat_set<K, C, A>::erase(iterator position)
     {
       elts_.erase(position);
     }
 
-    template<typename K,
-         typename C,
-         typename A>
+    template<typename K, typename C, typename A>
     auto flat_set<K, C, A>::erase(const_iterator position)
         -> iterator
     {
       return elts_.erase(position);
     }
 
-    template<typename K,
-         typename C,
-         typename A>
+    template<typename K, typename C, typename A>
     void flat_set<K, C, A>::erase(iterator first, iterator last)
     {
       iterator it = first;
@@ -324,9 +318,7 @@ namespace std
       }
     }
 
-    template<typename K,
-         typename C,
-         typename A>
+    template<typename K, typename C, typename A>
     auto flat_set<K, C, A>::erase(const_iterator first,
         const_iterator last)
         -> iterator
@@ -339,25 +331,15 @@ namespace std
       }
     }
 
-    template<typename K,
-         typename C,
-         typename A>
+    template<typename K, typename C, typename A>
     auto flat_set<K, C, A>::erase(const key_type& key)
         -> size_type
     {
-      iterator low;
-      low = std::lower_bound(elts_.begin(), elts_.end(), key, compare_);
-      while (*low == key)
-      {
-        elts_.erase(low);
-        low++;
-      }
+      elts_.erase(key);
       return elts_.size();
     }
 
-    template<typename K,
-         typename C,
-         typename A>
+    template<typename K, typename C, typename A>
     void flat_set<K, C, A>::swap( flat_set& other )
     {
       flat_set tmp = flat_set(this);
@@ -443,6 +425,20 @@ namespace std
         return upper_bound(elts_.cbegin(), elts_.cend(), key, compare_);
     }
 
+
+    /* OBSERVATORS */
+
+    template<typename K, typename C, typename A>
+    inline auto flat_set<K, C, A>::key_comp() const -> key_compare
+    {
+      return compare_;
+    }
+
+    template<typename K, typename C, typename A>
+    inline auto flat_set<K, C, A>::value_comp() const -> value_compare
+    {
+      return compare_;
+    }
 }
 
 #endif // !FLAT_SET_HXX
