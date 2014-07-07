@@ -62,8 +62,28 @@ namespace std
 
     }
 
+    /* DESTRUCTOR */
     template<typename K, typename C, typename A>
     inline flat_set<K, C, A>::~flat_set()
+    {
+    }
+
+    /* OPERATOR EQUALS */
+    template<typename K, typename C, typename A>
+    flat_set<K, C, A>& flat_set<K, C, A>::operator=(const flat_set& other)
+    {
+        flat_set copy = flat_set(other);
+        swap(*this, copy);
+        return *this;
+    }
+
+    template<typename K, typename C, typename A>
+    flat_set<K, C, A>& flat_set<K, C, A>::operator=(flat_set&& other)
+    {
+    }
+
+    template<typename K, typename C, typename A>
+    flat_set<K, C, A>& flat_set<K, C, A>::operator=(initializer_list<value_type> ilist)
     {
     }
 
@@ -117,9 +137,7 @@ namespace std
         return elts_.rbegin();
     }
 
-    template<typename K,
-         typename C,
-         typename A>
+    template<typename K, typename C, typename A>
     inline auto
     flat_set<K, C, A>::rbegin() const -> const_reverse_iterator
     {
@@ -172,6 +190,7 @@ namespace std
       return elts_.max_size();
     }
 
+    /* MODIFIERS */
     template<typename K, typename C, typename A>
     inline void flat_set<K, C, A>::clear()
     {
@@ -274,26 +293,22 @@ namespace std
         insert(*it);
     }
 
-    /* MODIFIERS */
-/*
-    template<typename Key,
-         typename Compare,
-         typename Allocator>
+    template<typename K, typename C, typename A>
     template<class... Args>
-    pair<iterator, bool> flat_set<Key, Compare, Allocator>::emplace(Args&&... args)
+    inline auto
+    flat_set<K, C, A>::emplace(Args&&... args) -> pair<iterator, bool>
     {
-
+        return insert(K(forward<Args>(args)...));
     }
 
-    template<typename Key,
-         typename Compare,
-         typename Allocator>
+    template<typename K, typename C, typename A>
     template <class... Args>
-    iterator flat_set<Key, Compare, Allocator>::emplace_hint(const_iterator hint, Args&&... args)
+    inline auto
+    flat_set<K, C, A>::emplace_hint(const_iterator hint, Args&&... args) -> iterator
     {
-
+        return insert(K(forward<Args>(args)...));
     }
-*/
+
     template<typename K, typename C, typename A>
     void flat_set<K, C, A>::erase(iterator position)
     {
