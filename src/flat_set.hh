@@ -129,10 +129,21 @@ class flat_set
     key_compare key_comp() const;
     value_compare value_comp() const;
 
-    /* OPERATORS */
-    bool equals(const flat_set& other) const;
-    bool greaterthan(const flat_set& other) const;
-    bool greaterequal(const flat_set& other) const;
+    template<class K, class C, class A>
+      friend bool operator==( const flat_set<K, C, A>& lhs,
+          const flat_set<K, C, A>& rhs );
+    template<class K, class C, class A>
+      friend bool operator!=( const flat_set<K, C, A>& lhs,
+          const flat_set<K, C, A>& rhs );
+    template<class K, class C, class A>
+      friend bool operator<( const flat_set<K, C, A>& lhs,
+          const flat_set<K, C, A>& rhs );
+    template<class K, class C, class A>
+      friend bool operator<=( const flat_set<K, C, A>& lhs,
+          const flat_set<K, C, A>& rhs );
+    template<class K, class C, class A>
+      friend bool operator>( const flat_set<K, C, A>& lhs,
+          const flat_set<K, C, A>& rhs );
 };
 
 template< class Key, class Compare, class Alloc >

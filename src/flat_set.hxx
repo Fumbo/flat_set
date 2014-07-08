@@ -2,7 +2,6 @@
 # define FLAT_SET_HXX
 
 # include "flat_set.hh"
-# include <iostream>
 
 namespace std
 {
@@ -356,12 +355,7 @@ namespace std
     template<typename K, typename C, typename A>
     void flat_set<K, C, A>::erase(iterator first, iterator last)
     {
-      iterator it = first;
-      while (it != last)
-      {
-        elts_.erase(it);
-        it++;
-      }
+        elts_.erase(first, last);
     }
 
     template<typename K, typename C, typename A>
@@ -369,12 +363,7 @@ namespace std
         const_iterator last)
         -> iterator
     {
-      iterator it = first;
-      while (it != last)
-      {
-        elts_.erase(it);
-        it++;
-      }
+      elts_.erase(first, last);
     }
 
     template<typename K, typename C, typename A>
@@ -391,7 +380,7 @@ namespace std
     void flat_set<K, C, A>::swap( flat_set& other )
     {
       flat_set tmp = flat_set(*this);
-      **this = other;
+      *this = other;
       other = tmp;
     }
 
@@ -481,75 +470,56 @@ namespace std
       return key_compare();
     }
 
-    template<typename K, typename C, typename A>
-    inline auto flat_set<K, C, A>::value_comp() const -> value_compare
-    {
-      return value_compare();
-    }
-
-    template< class K, class C, class A >
-    inline bool flat_set<K, C, A>::equals(const flat_set& other) const
-    {
-      return elts_ == other.elts_;
-    }
-
-    template< class K, class C, class A >
-    inline bool flat_set<K, C, A>::greaterthan(const flat_set& other) const
-    {
-      return elts_ > other.elts_;
-    }
-
-    template< class K, class C, class A >
-    inline bool flat_set<K, C, A>::greaterequal(const flat_set& other) const
-    {
-      return elts_ >= other.elts_;
-    }
-
-// TODO == != < <= > >=
-
 template< class K, class C, class A >
-inline bool operator==( const flat_set<K,C,A>& lhs,
+bool operator==( const flat_set<K,C,A>& lhs,
                  const flat_set<K,C,A>& rhs )
 {
-  return lhs.equals(rhs);
+   return lhs.elts_ == rhs.elts_;
 }
 
 template< class K, class C, class A >
 bool operator!=( const flat_set<K,C,A>& lhs,
                  const flat_set<K,C,A>& rhs )
 {
-  return !lhs.equals(rhs);
+   return lhs.elts_ != rhs.elts_;
 }
 
 template< class K, class C, class A >
 bool operator<( const flat_set<K,C,A>& lhs,
                 const flat_set<K,C,A>& rhs )
 {
-  return !lhs.greaterequal(rhs);
+   return lhs.elts_ < rhs.elts_;
 }
 
 template< class K, class C, class A >
 bool operator<=( const flat_set<K,C,A>& lhs,
                  const flat_set<K,C,A>& rhs )
 {
-  return !lhs.greaterthan(rhs);
+   return lhs.elts_ <= rhs.elts_;
 }
 
 template< class K, class C, class A >
 bool operator>( const flat_set<K,C,A>& lhs,
                 const flat_set<K,C,A>& rhs )
 {
-  return lhs.greaterthan(rhs);
+   return lhs.elts_ > rhs.elts_;
 }
 
 template< class K, class C, class A >
 bool operator>=( const flat_set<K,C,A>& lhs,
                  const flat_set<K,C,A>& rhs )
 {
-  return lhs.greaterequal(rhs);
+   return lhs.elts_ >= rhs.elts_;
 }
+
+template< class K, class C, class A >
+void swap( flat_set<K, C, A>& lhs,
+               flat_set<K, C, A>& rhs )
+{
+   return lhs.swap(rhs);
+}
+
 
 }
 
-// TODO swap
 #endif // !FLAT_SET_HXX
