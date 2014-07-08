@@ -2,6 +2,7 @@
 # define FLAT_SET_HXX
 
 # include "flat_set.hh"
+# include <iostream>
 
 namespace std
 {
@@ -200,8 +201,15 @@ namespace std
     inline auto
     flat_set<K, C, A>::insert(const K& value) -> pair<iterator, bool>
     {
+      if (elts_.begin() == elts_.end() )
+      {
+        elts_.push_back(value);
+        return std::pair<iterator, bool>(elts_.begin(), true);
+      }
+
       iterator low;
       low = std::lower_bound(elts_.begin(), elts_.end(), value);
+
       if (*low != value)
       {
         elts_.insert(low, value);
@@ -214,6 +222,12 @@ namespace std
     inline auto
     flat_set<K, C, A>::insert(K&& value) -> pair<iterator, bool>
     {
+      if (elts_.begin() == elts_.end() )
+      {
+        elts_.push_back(value);
+        return std::pair<iterator, bool>(elts_.begin(), true);
+      }
+
       iterator low;
       low = std::lower_bound(elts_.begin(), elts_.end(), value, key_compare());
       if (*low != value)
@@ -228,6 +242,13 @@ namespace std
     inline auto
     flat_set<K, C, A>::insert(iterator hint, const K& value) -> iterator
     {
+      if (elts_.begin() == elts_.end() )
+      {
+        elts_.push_back(value);
+        return elts_.begin();
+      }
+
+
       if (find(value) != elts_.end())
         return elts_.end();
       elts_.insert(hint, value);
@@ -244,6 +265,12 @@ namespace std
     inline auto
     flat_set<K, C, A>::insert(const_iterator hint, const K& value) -> iterator
     {
+      if (elts_.begin() == elts_.end() )
+      {
+        elts_.push_back(value);
+        return elts_.begin();
+      }
+
       if (find(value) != elts_.end())
         return elts_.end();
       elts_.insert(hint, value);
@@ -260,6 +287,11 @@ namespace std
     inline auto
     flat_set<K, C, A>::insert(const_iterator hint, K&& value) -> iterator
     {
+      if (elts_.begin() == elts_.end() )
+      {
+        elts_.push_back(value);
+        return elts_.begin();
+      }
       if (find(value) != elts_.end())
         return elts_.end();
       elts_.insert(hint, value);
