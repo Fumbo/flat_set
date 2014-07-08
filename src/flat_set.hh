@@ -129,6 +129,21 @@ class flat_set
     key_compare key_comp() const;
     value_compare value_comp() const;
 
+    template<class K, class C, class A>
+    friend bool operator==( const flat_set<K, C, A>& lhs,
+                            const flat_set<K, C, A>& rhs );
+    template<class K, class C, class A>
+    friend bool operator!=( const flat_set<K, C, A>& lhs,
+                            const flat_set<K, C, A>& rhs );
+    template<class K, class C, class A>
+    friend bool operator<( const flat_set<K, C, A>& lhs,
+                            const flat_set<K, C, A>& rhs );
+    template<class K, class C, class A>
+    friend bool operator<=( const flat_set<K, C, A>& lhs,
+                            const flat_set<K, C, A>& rhs );
+    template<class K, class C, class A>
+    friend bool operator>( const flat_set<K, C, A>& lhs,
+                            const flat_set<K, C, A>& rhs );
 
 };
 
