@@ -84,6 +84,8 @@ namespace std
     flat_set<K, C, A>& flat_set<K, C, A>::operator=(initializer_list<value_type> ilist)
     {
         // TODO
+        elts_ = vector<K, A>(ilist);
+        return *this;
     }
 
     // ITERATORS
@@ -452,8 +454,52 @@ namespace std
     {
       return value_compare();
     }
-}
 
 // TODO == != < <= > >=
+
+template< class K, class C, class A >
+bool operator==( const flat_set<K,C,A>& lhs,
+                 const flat_set<K,C,A>& rhs )
+{
+  return lhs.elts_ == rhs.elts_;
+}
+
+template< class K, class C, class A >
+bool operator!=( const flat_set<K,C,A>& lhs,
+                 const flat_set<K,C,A>& rhs )
+{
+  return lhs.elts_ =! rhs.elts_;
+}
+
+template< class K, class C, class A >
+bool operator<( const flat_set<K,C,A>& lhs,
+                const flat_set<K,C,A>& rhs )
+{
+  return lhs.elts_ < rhs.elts_;
+}
+
+template< class K, class C, class A >
+bool operator<=( const flat_set<K,C,A>& lhs,
+                 const flat_set<K,C,A>& rhs )
+{
+  return lhs.elts_ <= rhs.elts_;
+}
+
+template< class K, class C, class A >
+bool operator>( const flat_set<K,C,A>& lhs,
+                const flat_set<K,C,A>& rhs )
+{
+  return lhs.elts_ > rhs.elts_;
+}
+
+template< class K, class C, class A >
+bool operator>=( const flat_set<K,C,A>& lhs,
+                 const flat_set<K,C,A>& rhs )
+{
+  return lhs.elts_ >= rhs.elts_;
+}
+
+}
+
 // TODO swap
 #endif // !FLAT_SET_HXX
