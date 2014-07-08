@@ -508,7 +508,7 @@ namespace std
 // TODO == != < <= > >=
 
 template< class K, class C, class A >
-bool operator==( const flat_set<K,C,A>& lhs,
+inline bool operator==( const flat_set<K,C,A>& lhs,
                  const flat_set<K,C,A>& rhs )
 {
   return lhs.equals(rhs);
