@@ -8,14 +8,14 @@ namespace std
 
     // CONSTRUCTORS
     template<typename K, typename C, typename A>
-    inline flat_set<K, C, A>::flat_set(const C&, const A& alloc)
-      : elts_(std::vector<K, A>(alloc))
+    inline flat_set<K, C, A>::flat_set(const C&, const A&)
+      : elts_(std::vector<K, A>())
     {
     }
 
     template<typename K, typename C, typename A>
-    inline flat_set<K, C, A>::flat_set( const A& )
-      : elts_(std::vector<K, A>())
+    inline flat_set<K, C, A>::flat_set(const A& alloc)
+      : elts_(std::vector<K, A>(alloc))
     {
     }
 
@@ -27,21 +27,20 @@ namespace std
     }
 
     template<typename K, typename C, typename A>
-    inline flat_set<K, C, A>::flat_set(const flat_set& other )
-      : elts_(std::vector<K, A>(other.elts_, std::allocator_traits<allocator_type>::select_on_copy_construction(other)))
+    inline flat_set<K, C, A>::flat_set(const flat_set& other)
+      : elts_(std::vector<K, A>(other.elts_, allocator_type()))
     {
     }
 
     template<typename K, typename C, typename A>
-    inline flat_set<K, C, A>::flat_set(const flat_set& other,
-        const A& alloc)
+    inline flat_set<K, C, A>::flat_set(const flat_set& other, const A& alloc)
       : elts_(std::vector<K, A>(other.elts_, alloc))
     {
     }
 
     template<typename K, typename C, typename A>
     inline flat_set<K, C, A>::flat_set(flat_set&& other)
-      : elts_(std::vector<K, A>(other.elts_, std::allocator_traits<allocator_type>::select_on_copy_construction(other)))
+      : elts_(move(other.elts_))
     {
     }
 
@@ -52,11 +51,10 @@ namespace std
     }
 
     template<typename K, typename C, typename A>
-    inline flat_set<K, C, A>::flat_set(initializer_list<value_type> init, const C& comp,
-                                       const A& alloc)
+    inline flat_set<K, C, A>::flat_set(initializer_list<value_type> init, const C&,
+                                       const A&)
         : elts_(std::vector<K, A>(init))
     {
-
     }
 
     /* DESTRUCTOR */
