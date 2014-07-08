@@ -54,8 +54,8 @@ namespace std
     template<typename K, typename C, typename A>
     inline flat_set<K, C, A>::flat_set(initializer_list<value_type> init, const C&,
                                        const A&)
-        : elts_(std::vector<K, A>(init))
     {
+      insert(init);
     }
 
     /* DESTRUCTOR */
@@ -321,7 +321,7 @@ namespace std
     flat_set<K, C, A>::insert(initializer_list<value_type> ilist)
     {
       for (auto it : ilist)
-        insert(*it);
+        insert(it);
     }
 
     template<typename K, typename C, typename A>
@@ -381,15 +381,17 @@ namespace std
     auto flat_set<K, C, A>::erase(const key_type& key)
         -> size_type
     {
-      elts_.erase(key);
+      auto it = find(key);
+      if (it != elts_.end())
+        elts_.erase(it);
       return elts_.size();
     }
 
     template<typename K, typename C, typename A>
     void flat_set<K, C, A>::swap( flat_set& other )
     {
-      flat_set tmp = flat_set(this);
-      this = other;
+      flat_set tmp = flat_set(*this);
+      **this = other;
       other = tmp;
     }
 
@@ -407,8 +409,8 @@ namespace std
     inline auto
     flat_set<K, C, A>::find(const K& key) -> iterator
     {
-        auto it = lower_bound(elts_.begin(), elts_.end(), key, key_compare());
-        if (*it == key)
+        auto it = std::lower_bound(elts_.begin(), elts_.end(), key, key_compare());
+        if (it != elts_.end() && *it == key)
             return it;
         else
             return elts_.end();
@@ -418,8 +420,8 @@ namespace std
     inline auto
     flat_set<K, C, A>::find(const K& key) const -> const_iterator
     {
-        auto it = lower_bound(elts_.cbegin(), elts_.cend(), key, key_compare());
-        if (*it == key)
+        auto it = std::lower_bound(elts_.cbegin(), elts_.cend(), key, key_compare());
+        if (it != elts_.end() && *it == key)
             return it;
         else
             return elts_.end();
@@ -450,25 +452,25 @@ namespace std
     template<typename K, typename C, typename A>
     inline auto flat_set<K, C, A>::lower_bound(const K& key) -> iterator
     {
-        return lower_bound(elts_.begin(), elts_.end(), key, key_compare());
+        return std::lower_bound(elts_.begin(), elts_.end(), key, key_compare());
     }
 
     template<typename K, typename C, typename A>
     inline auto flat_set<K, C, A>::lower_bound(const K& key) const -> const_iterator
     {
-        return lower_bound(elts_.cbegin(), elts_.cend(), key, key_compare());
+        return std::lower_bound(elts_.cbegin(), elts_.cend(), key, key_compare());
     }
 
     template<typename K, typename C, typename A>
     inline auto flat_set<K, C, A>::upper_bound(const K& key) -> iterator
     {
-        return upper_bound(elts_.begin(), elts_.end(), key, key_compare());
+        return std::upper_bound(elts_.begin(), elts_.end(), key, key_compare());
     }
 
     template<typename K, typename C, typename A>
     inline auto flat_set<K, C, A>::upper_bound(const K& key) const -> const_iterator
     {
-        return upper_bound(elts_.cbegin(), elts_.cend(), key, key_compare());
+        return std::upper_bound(elts_.cbegin(), elts_.cend(), key, key_compare());
     }
 
 
@@ -485,48 +487,66 @@ namespace std
       return value_compare();
     }
 
+    template< class K, class C, class A >
+    inline bool flat_set<K, C, A>::equals(const flat_set& other) const
+    {
+      return elts_ == other.elts_;
+    }
+
+    template< class K, class C, class A >
+    inline bool flat_set<K, C, A>::greaterthan(const flat_set& other) const
+    {
+      return elts_ > other.elts_;
+    }
+
+    template< class K, class C, class A >
+    inline bool flat_set<K, C, A>::greaterequal(const flat_set& other) const
+    {
+      return elts_ >= other.elts_;
+    }
+
 // TODO == != < <= > >=
 
 template< class K, class C, class A >
 bool operator==( const flat_set<K,C,A>& lhs,
                  const flat_set<K,C,A>& rhs )
 {
-  return lhs.elts_ == rhs.elts_;
+  return lhs.equals(rhs);
 }
 
 template< class K, class C, class A >
 bool operator!=( const flat_set<K,C,A>& lhs,
                  const flat_set<K,C,A>& rhs )
 {
-  return lhs.elts_ =! rhs.elts_;
+  return !lhs.equals(rhs);
 }
 
 template< class K, class C, class A >
 bool operator<( const flat_set<K,C,A>& lhs,
                 const flat_set<K,C,A>& rhs )
 {
-  return lhs.elts_ < rhs.elts_;
+  return !lhs.greaterequal(rhs);
 }
 
 template< class K, class C, class A >
 bool operator<=( const flat_set<K,C,A>& lhs,
                  const flat_set<K,C,A>& rhs )
 {
-  return lhs.elts_ <= rhs.elts_;
+  return !lhs.greaterthan(rhs);
 }
 
 template< class K, class C, class A >
 bool operator>( const flat_set<K,C,A>& lhs,
                 const flat_set<K,C,A>& rhs )
 {
-  return lhs.elts_ > rhs.elts_;
+  return lhs.greaterthan(rhs);
 }
 
 template< class K, class C, class A >
 bool operator>=( const flat_set<K,C,A>& lhs,
                  const flat_set<K,C,A>& rhs )
 {
-  return lhs.elts_ >= rhs.elts_;
+  return lhs.greaterequal(rhs);
 }
 
 }
