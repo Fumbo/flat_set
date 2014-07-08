@@ -8,56 +8,53 @@ namespace std
 
     // CONSTRUCTORS
     template<typename K, typename C, typename A>
-    inline flat_set<K, C, A>::flat_set(const C& comp, const A& alloc)
-      : elts_(std::vector<K, A>(alloc)), compare_(comp)
+    inline flat_set<K, C, A>::flat_set(const C&, const A& alloc)
+      : elts_(std::vector<K, A>(alloc))
     {
     }
 
     template<typename K, typename C, typename A>
-    inline flat_set<K, C, A>::flat_set( const A& alloc )
+    inline flat_set<K, C, A>::flat_set( const A& )
       : elts_(std::vector<K, A>())
     {
     }
 
     template<typename K, typename C, typename A>
     template<class InputIt>
-    inline flat_set<K, C, A>::flat_set(InputIt first, InputIt last,
-         const C& comp,
-         const A& alloc)
-        : elts_(std::vector<K, A>(first, last)), compare_(comp)
+    inline flat_set<K, C, A>::flat_set(InputIt first, InputIt last, const C&, const A&)
+        : elts_(std::vector<K, A>(first, last))
     {
     }
 
     template<typename K, typename C, typename A>
     inline flat_set<K, C, A>::flat_set(const flat_set& other )
-      : elts_(std::vector<K, A>(other.elts_, std::allocator_traits<allocator_type>::select_on_copy_construction(other))), compare_(other.compare_)
+      : elts_(std::vector<K, A>(other.elts_, std::allocator_traits<allocator_type>::select_on_copy_construction(other)))
     {
-        // std::allocator_traits<allocator_type>::select_on_copy_construction(other)) error ?
     }
 
     template<typename K, typename C, typename A>
     inline flat_set<K, C, A>::flat_set(const flat_set& other,
         const A& alloc)
-      : elts_(std::vector<K, A>(other.elts_, alloc)), compare_(other.compare_)
+      : elts_(std::vector<K, A>(other.elts_, alloc))
     {
     }
 
     template<typename K, typename C, typename A>
     inline flat_set<K, C, A>::flat_set(flat_set&& other)
-      : elts_(std::vector<K, A>(other.elts_, std::allocator_traits<allocator_type>::select_on_copy_construction(other))), compare_(other.compare_)
+      : elts_(std::vector<K, A>(other.elts_, std::allocator_traits<allocator_type>::select_on_copy_construction(other)))
     {
     }
 
     template<typename K, typename C, typename A>
     inline flat_set<K, C, A>::flat_set(flat_set&& other, const A& alloc)
-      : elts_(std::vector<K, A>(other.elts_, alloc)), compare_(other.compare_)
+      : elts_(std::vector<K, A>(other.elts_, alloc))
     {
     }
 
     template<typename K, typename C, typename A>
     inline flat_set<K, C, A>::flat_set(initializer_list<value_type> init, const C& comp,
                                        const A& alloc)
-        : elts_(std::vector<K, A>(init)), compare_(comp)
+        : elts_(std::vector<K, A>(init))
     {
 
     }
@@ -72,16 +69,15 @@ namespace std
     template<typename K, typename C, typename A>
     flat_set<K, C, A>& flat_set<K, C, A>::operator=(const flat_set& other)
     {
-        // TODO
-        flat_set copy = flat_set(other);
-        swap(*this, copy);
+        elts_ = other.elts_;
         return *this;
     }
 
     template<typename K, typename C, typename A>
     flat_set<K, C, A>& flat_set<K, C, A>::operator=(flat_set&& other)
     {
-        // TODO
+        elts_ = other.elts_;
+        return *this;
     }
 
     template<typename K, typename C, typename A>
@@ -219,7 +215,7 @@ namespace std
     flat_set<K, C, A>::insert(K&& value) -> pair<iterator, bool>
     {
       iterator low;
-      low = std::lower_bound(elts_.begin(), elts_.end(), value, compare_);
+      low = std::lower_bound(elts_.begin(), elts_.end(), value, key_compare());
       if (*low != value)
       {
         elts_.insert(low, value);
@@ -235,11 +231,11 @@ namespace std
       if (find(value) != elts_.end())
         return elts_.end();
       elts_.insert(hint, value);
-      if (is_sorted(elts_.begin(), elts_.end(), compare_))
+      if (is_sorted(elts_.begin(), elts_.end(), key_compare()))
         return hint;
       else
       {
-        sort(elts_.begin(), elts_.end(), compare_);
+        sort(elts_.begin(), elts_.end(), key_compare());
         return find(value);
       }
     }
@@ -251,11 +247,11 @@ namespace std
       if (find(value) != elts_.end())
         return elts_.end();
       elts_.insert(hint, value);
-      if (is_sorted(elts_.begin(), elts_.end(), compare_))
+      if (is_sorted(elts_.begin(), elts_.end(), key_compare()))
         return hint;
       else
       {
-        sort(elts_.begin(), elts_.end(), compare_);
+        sort(elts_.begin(), elts_.end(), key_compare());
         return find(value);
       }
     }
@@ -267,11 +263,11 @@ namespace std
       if (find(value) != elts_.end())
         return elts_.end();
       elts_.insert(hint, value);
-      if (is_sorted(elts_.begin(), elts_.end(), compare_))
+      if (is_sorted(elts_.begin(), elts_.end(), key_compare()))
         return hint;
       else
       {
-        sort(elts_.begin(), elts_.end(), compare_);
+        sort(elts_.begin(), elts_.end(), key_compare());
         return find(value);
       }
     }
@@ -379,7 +375,7 @@ namespace std
     inline auto
     flat_set<K, C, A>::find(const K& key) -> iterator
     {
-        auto it = lower_bound(elts_.begin(), elts_.end(), key, compare_);
+        auto it = lower_bound(elts_.begin(), elts_.end(), key, key_compare());
         if (*it == key)
             return it;
         else
@@ -390,7 +386,7 @@ namespace std
     inline auto
     flat_set<K, C, A>::find(const K& key) const -> const_iterator
     {
-        auto it = lower_bound(elts_.cbegin(), elts_.cend(), key, compare_);
+        auto it = lower_bound(elts_.cbegin(), elts_.cend(), key, key_compare());
         if (*it == key)
             return it;
         else
@@ -422,25 +418,25 @@ namespace std
     template<typename K, typename C, typename A>
     inline auto flat_set<K, C, A>::lower_bound(const K& key) -> iterator
     {
-        return lower_bound(elts_.begin(), elts_.end(), key, compare_);
+        return lower_bound(elts_.begin(), elts_.end(), key, key_compare());
     }
 
     template<typename K, typename C, typename A>
     inline auto flat_set<K, C, A>::lower_bound(const K& key) const -> const_iterator
     {
-        return lower_bound(elts_.cbegin(), elts_.cend(), key, compare_);
+        return lower_bound(elts_.cbegin(), elts_.cend(), key, key_compare());
     }
 
     template<typename K, typename C, typename A>
     inline auto flat_set<K, C, A>::upper_bound(const K& key) -> iterator
     {
-        return upper_bound(elts_.begin(), elts_.end(), key, compare_);
+        return upper_bound(elts_.begin(), elts_.end(), key, key_compare());
     }
 
     template<typename K, typename C, typename A>
     inline auto flat_set<K, C, A>::upper_bound(const K& key) const -> const_iterator
     {
-        return upper_bound(elts_.cbegin(), elts_.cend(), key, compare_);
+        return upper_bound(elts_.cbegin(), elts_.cend(), key, key_compare());
     }
 
 
@@ -448,13 +444,13 @@ namespace std
     template<typename K, typename C, typename A>
     inline auto flat_set<K, C, A>::key_comp() const -> key_compare
     {
-      return compare_;
+      return key_compare();
     }
 
     template<typename K, typename C, typename A>
     inline auto flat_set<K, C, A>::value_comp() const -> value_compare
     {
-      return compare_;
+      return value_compare();
     }
 }
 

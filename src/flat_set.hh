@@ -16,6 +16,9 @@ template<typename Key,
 class flat_set
 {
 
+  private:
+    vector<Key> elts_;
+
   public:
     /* Types */
     typedef Key                   key_type;
@@ -126,9 +129,6 @@ class flat_set
     key_compare key_comp() const;
     value_compare value_comp() const;
 
-    private:
-      vector<Key> elts_;
-      Compare compare_;
 
 };
 
